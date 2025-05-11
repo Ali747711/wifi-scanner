@@ -1,0 +1,263 @@
+/* Instagram Login Page CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #fafafa;
+    color: #262626;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 32px auto 0;
+    max-width: 935px;
+    padding-bottom: 32px;
+    width: 100%;
+}
+
+.phone-container {
+    align-self: center;
+    background-image: url(https://www.instagram.com/static/images/homepage/phones/home-phones.png/1dc085cdb87d.png);
+    background-size: 454px 618px;
+    background-position: -46px 0;
+    flex-basis: 454px;
+    height: 618px;
+    margin-left: -35px;
+    margin-right: -15px;
+}
+
+.phone-container img {
+    height: 100%;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    margin-top: 12px;
+    max-width: 350px;
+}
+
+.form-box {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 1px;
+    margin: 0 0 10px;
+    padding: 10px 0;
+}
+
+.logo {
+    margin: 22px auto 12px;
+    text-align: center;
+}
+
+.logo img {
+    max-height: 51px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.input-box {
+    margin: 0 40px 6px;
+}
+
+input {
+    background: #fafafa;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    color: #262626;
+    flex: 1 0 auto;
+    font-size: 14px;
+    height: 36px;
+    padding: 0 8px;
+    width: 100%;
+}
+
+input:focus {
+    border: 1px solid #a8a8a8;
+    outline: none;
+}
+
+.login-button {
+    background-color: #0095f6;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 8px 40px;
+    padding: 5px 9px;
+    text-align: center;
+    height: 30px;
+}
+
+.login-button:hover {
+    background-color: #0086e6;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 10px 40px 18px;
+}
+
+.line {
+    background-color: #dbdbdb;
+    flex-grow: 1;
+    height: 1px;
+}
+
+.or {
+    color: #8e8e8e;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 18px;
+    text-transform: uppercase;
+}
+
+.fb-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 40px;
+}
+
+.fb-login img {
+    height: 16px;
+    margin-right: 8px;
+}
+
+.fb-login a {
+    color: #385185;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.forgot-password {
+    margin: 12px 0;
+    text-align: center;
+}
+
+.forgot-password a {
+    color: #00376b;
+    font-size: 12px;
+    line-height: 14px;
+    text-decoration: none;
+}
+
+.signup-box {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 1px;
+    margin: 0 0 10px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.signup-box p {
+    margin: 15px;
+}
+
+.signup-box a {
+    color: #0095f6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.app-download {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.app-download p {
+    margin: 10px 0;
+}
+
+.app-links {
+    display: flex;
+    justify-content: center;
+}
+
+.app-links a {
+    margin: 0 4px;
+}
+
+.app-links img {
+    height: 40px;
+}
+
+footer {
+    background-color: #fafafa;
+    padding: 0 16px;
+    margin-bottom: 52px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 935px;
+}
+
+.footer-links a {
+    color: #8e8e8e;
+    font-size: 12px;
+    margin: 0 8px 12px;
+    text-decoration: none;
+}
+
+.copyright {
+    color: #8e8e8e;
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+}
+
+.copyright select {
+    background: none;
+    border: none;
+    color: #8e8e8e;
+    font-size: 12px;
+    margin-right: 16px;
+}
+
+.copyright span {
+    font-size: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 875px) {
+    .container {
+        justify-content: center;
+    }
+    
+    .phone-container {
+        display: none;
+    }
+}
+
+@media (max-width: 450px) {
+    .container {
+        margin-top: 0;
+    }
+    
+    .form-box, .signup-box {
+        background-color: transparent;
+        border: none;
+    }
+}

